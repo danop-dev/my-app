@@ -8,7 +8,8 @@
     "start": "next start --port 3030",
     "types:check": "fumadocs-mdx && next typegen && tsc --noEmit",
     "postinstall": "fumadocs-mdx",
-    "lint": "eslint"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@workspace/ui": "workspace:*",
@@ -31,9 +32,8 @@
     "postcss": "^8.5.6",
     "tailwindcss": "^4.2.1",
     "typescript": "^5.9.3",
-    "eslint-config-next": "16.1.6",
     "@workspace/eslint-config": "workspace:^",
     "@workspace/typescript-config": "workspace:*",
-    "eslint": "^10.0.2"
+    "eslint": "^9.39.2"
   }
 }

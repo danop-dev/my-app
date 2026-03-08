@@ -1,0 +1,17 @@
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Dependencies
+node_modules/
+
+# Auto-generated
+pnpm-lock.yaml
+*.lock
+*.log
+
+# Source files to ignore
+.turbo/
+coverage/
