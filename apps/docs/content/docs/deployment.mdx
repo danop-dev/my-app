@@ -1,0 +1,145 @@
+---
+title: Docker & Deployment
+description: How to build and deploy the full stack with Docker on Ubuntu via Tailscale
+---
+
+## Requirements
+
+- Ubuntu server (22.04+)
+- Docker + Docker Compose v2
+- Tailscale installed on both server and client
+- Git access to the repository
+
+## 1. Server Setup (Ubuntu)
+
+```bash
+# Update system
+sudo apt update && sudo apt upgrade -y
+
+# Install Docker
+curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker $USER
+
+# Install Tailscale
+curl -fsSL https://tailscale.com/install.sh | sh
+sudo tailscale up
+
+# Verify Tailscale connection
+tailscale ip -4
+```
+
+## 2. Clone the Repository
+
+```bash
+git clone git@pers.github.com:danop-dev/my-app.git
+cd my-app
+```
+
+## 3. Configure Environment
+
+```bash
+# Copy the production env template
+cp .env.prod .env
+
+# Edit with your values
+nano .env
+```
+
+Minimum required variables:
+
+```env
+NODE_ENV=production
+
+# Ports
+PORT_API=8000
+PORT_WEB=3000
+PORT_DOCS=3030
+
+# Database
+POSTGRES_USER=myapp
+POSTGRES_PASSWORD=your_secure_password
+POSTGRES_DB=myapp
+DATABASE_URL=postgresql://myapp:your_secure_password@postgres:5432/myapp
+```
+
+## 4. Build and Start
+
+```bash
+# Build all images and start services
+docker compose --env-file .env.prod up -d --build
+
+# Check status
+docker compose ps
+
+# View logs
+docker compose logs -f
+```
+
+## 5. Run Database Migrations
+
+```bash
+docker compose exec api npx prisma migrate deploy
+```
+
+## 6. Access the Apps
+
+Via Tailscale IP (e.g. `100.x.x.x`):
+
+| Service | URL |
+|---------|-----|
+| Web | `http://100.x.x.x` |
+| API | `http://100.x.x.x/api` |
+| Docs | `http://100.x.x.x/docs` |
+
+Or via Tailscale hostname (e.g. `my-app-server`):
+
+| Service | URL |
+|---------|-----|
+| Web | `http://my-app-server` |
+| API | `http://my-app-server/api` |
+| Docs | `http://my-app-server/docs` |
+
+## 7. Update Deployment
+
+```bash
+git pull origin main
+docker compose --env-file .env.prod up -d --build
+```
+
+## Docker Architecture
+
+```
+                Tailscale Network
+                       │
+              [Your Laptop / Client]
+                       │
+              [Ubuntu Server :80]
+                       │
+                  [Nginx :80]
+                ┌──────┼──────┐
+           /api/│      │/     │/docs/
+                ▼      ▼      ▼
+           api:8000  web:3000  docs:3030
+                       │
+                  postgres:5432
+```
+
+## Useful Commands
+
+```bash
+# Stop all services
+docker compose down
+
+# Stop and remove volumes (wipes database!)
+docker compose down -v
+
+# Rebuild a single service
+docker compose up -d --build api
+
+# Open shell inside a container
+docker compose exec api sh
+docker compose exec web sh
+
+# View resource usage
+docker stats
+```

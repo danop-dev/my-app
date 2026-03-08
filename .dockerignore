@@ -1,0 +1,29 @@
+# Dependencies
+node_modules
+**/node_modules
+
+# Build outputs
+.next
+**/dist
+**/.next
+**/out
+
+# Git
+.git
+.gitignore
+
+# Env files
+.env*
+
+# Turbo cache
+.turbo
+
+# IDE
+.vscode
+
+# OS
+.DS_Store
+*.pem
+
+# Logs
+npm-debug.log*

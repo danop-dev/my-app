@@ -1,0 +1,67 @@
+---
+title: Architecture
+description: Project structure and technology stack
+---
+
+## Monorepo Structure
+
+```
+my-app/
+├── apps/
+│   ├── api/          # NestJS REST API
+│   ├── web/          # Next.js frontend
+│   └── docs/         # Fumadocs documentation
+├── packages/
+│   ├── ui/                # Shared React components
+│   ├── backend-config/    # Shared NestJS utilities
+│   ├── eslint-config/     # ESLint configs (frontend + backend)
+│   └── typescript-config/ # TypeScript configs
+├── nginx/
+│   └── nginx.conf         # Reverse proxy config
+├── docker-compose.yml
+└── turbo.json
+```
+
+## Technology Stack
+
+### Frontend — `apps/web`
+- **Next.js 16** with Turbopack
+- **React 19**
+- **Tailwind CSS v4**
+- Port: `3000`
+
+### Backend — `apps/api`
+- **NestJS 11**
+- **Prisma** ORM (PostgreSQL)
+- **class-validator** for DTO validation
+- **@nestjs/swagger** for OpenAPI docs
+- Port: `8000`
+
+### Documentation — `apps/docs`
+- **Fumadocs** (Next.js-based)
+- MDX content
+- Port: `3030`
+
+### Database
+- **PostgreSQL 16**
+- Managed via Prisma migrations
+
+## Ports
+
+| Service | Dev | Production (Docker) |
+|---------|-----|---------------------|
+| web | 3000 | 3000 |
+| api | 8000 | 8000 |
+| docs | 3030 | 3030 |
+| postgres | 5432 | 5432 (internal) |
+| nginx | — | 80 |
+
+## Environment Files
+
+| File | Purpose |
+|------|---------|
+| `.env.dev` | Local development |
+| `.env.demo` | Demo / staging server |
+| `.env.prod` | Production server |
+
+All env files are git-ignored. Copy and fill values before running.

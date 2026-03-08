@@ -4,6 +4,7 @@ const withMDX = createMDX();
 
 /** @type {import('next').NextConfig} */
 const config = {
+  output: "standalone",
   transpilePackages: ["@workspace/ui"],
   serverExternalPackages: ['@takumi-rs/image-response'],
   reactStrictMode: true,

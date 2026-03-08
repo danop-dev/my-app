@@ -1,13 +1,45 @@
 ---
-title: Hello World
-description: Your first document
+title: Overview
+description: my-app monorepo — architecture, apps and packages
 ---
 
-Welcome to the docs! You can start writing documents in `/content/docs`.
+## What is this?
 
-## What is Next?
+`my-app` is a full-stack **Turborepo monorepo** with a shared UI library, NestJS backend API, Next.js frontend, and this documentation site.
+
+## Apps
+
+| App | Port | Description |
+|-----|------|-------------|
+| `apps/web` | `3000` | Next.js 16 frontend |
+| `apps/api` | `8000` | NestJS 11 REST API |
+| `apps/docs` | `3030` | This documentation site |
+
+## Packages
+
+| Package | Description |
+|---------|-------------|
+| `packages/ui` | Shared React component library |
+| `packages/backend-config` | Shared NestJS guards, pipes, filters, interceptors, decorators |
+| `packages/eslint-config` | Shared ESLint configs for frontend and backend |
+| `packages/typescript-config` | Shared TypeScript configs |
+
+## Quick Start
+
+```bash
+# Install dependencies
+pnpm install
+
+# Run all apps
+pnpm dev
+
+# Run a single app
+pnpm dev --filter=web
+pnpm dev --filter=@workspace/api
+pnpm dev --filter=docs
+```
 
 <Cards>
-  <Card title="Learn more about Next.js" href="https://nextjs.org/docs" />
-  <Card title="Learn more about Fumadocs" href="https://fumadocs.dev" />
+  <Card title="Docker & Deployment" href="/docs/deployment" />
+  <Card title="Architecture" href="/docs/architecture" />
 </Cards>
