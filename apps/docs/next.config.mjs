@@ -4,8 +4,12 @@ const withMDX = createMDX();
 
 /** @type {import('next').NextConfig} */
 const config = {
-  output: "standalone",
-  transpilePackages: ["@workspace/ui"],
+  output: 'standalone',
+  transpilePackages: ['@workspace/ui'],
+  env: {
+    NEXT_PUBLIC_API_PORT: process.env.PORT_API ?? '8000',
+    NEXT_PUBLIC_API_URL: `http://localhost:${process.env.PORT_API ?? '8000'}`,
+  },
   serverExternalPackages: ['@takumi-rs/image-response'],
   reactStrictMode: true,
   async rewrites() {
