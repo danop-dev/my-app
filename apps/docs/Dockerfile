@@ -1,5 +1,5 @@
 FROM node:20-alpine AS base
-RUN corepack enable && corepack prepare pnpm@latest --activate
+RUN corepack enable && corepack prepare pnpm@10.4.1 --activate
 
 # ─── Prune workspace ────────────────────────────────────────────────────────
 FROM base AS pruner
@@ -32,7 +32,7 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-COPY --from=builder /app/apps/docs/public ./public 2>/dev/null || true
+COPY --from=builder /app/apps/docs/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/apps/docs/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/apps/docs/.next/static ./apps/docs/.next/static
 
