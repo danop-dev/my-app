@@ -31,7 +31,7 @@ jobs:
           script: |
             set -e
 
-            APP_DIR="$HOME/my-app"
+            APP_DIR="$HOME/projects/my-app"
 
             # ── pull latest code ──────────────────────────────────────────────
             cd "$APP_DIR"
@@ -57,4 +57,4 @@ jobs:
           port: 22
           script: |
             echo "--- Container status ---"
-            docker compose -f "$HOME/my-app/docker-compose.yml" ps
+            docker compose -f "$HOME/projects/my-app/docker-compose.yml" ps
