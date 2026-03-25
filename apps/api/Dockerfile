@@ -4,7 +4,7 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 # ─── Prune workspace ────────────────────────────────────────────────────────
 FROM base AS pruner
 WORKDIR /app
-RUN pnpm add -g turbo
+RUN npm install -g turbo
 COPY . .
 RUN turbo prune @workspace/api --docker
 
